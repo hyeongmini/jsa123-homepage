@@ -290,6 +290,7 @@ a { color: inherit; text-decoration: none; }
   box-shadow: 0 6px 16px rgba(26,26,26,.25);
 }
 h3.pavement-title:first-of-type { margin-top: 8px; }
+.pavement-title-lg { margin-top: 96px; }
 .pavement-figure {
   border-radius: 16px;
   overflow: hidden;
