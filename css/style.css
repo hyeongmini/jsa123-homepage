@@ -418,7 +418,7 @@ h3.pavement-title:first-of-type { margin-top: 8px; }
   border-radius: 14px;
   padding: 16px;
 }
-.type-card img { width: 220px; height: 170px; object-fit: contain; background: var(--bg); border-radius: 10px; flex-shrink: 0; }
+.type-card img { width: 220px; height: 170px; object-fit: contain; background: #fff; border-radius: 10px; flex-shrink: 0; }
 .type-info { flex: 1; min-width: 0; }
 .type-info h4 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
 .type-info h4 em { display: block; font-style: normal; font-weight: 500; font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
