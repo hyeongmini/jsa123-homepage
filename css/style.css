@@ -429,6 +429,92 @@ h3.pavement-title:first-of-type { margin-top: 8px; }
   .type-card img { width: 140px; height: 108px; }
 }
 
+/* 아스콘의 재료: 슬라이드 1개씩 자동 전환(5초) + 하단 스테퍼로 수동 이동 */
+.material-showcase { margin-top: 24px; }
+.material-layout { display: flex; align-items: center; gap: 48px; }
+.material-text { flex: 1 1 45%; min-width: 0; }
+.material-name {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 16px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .4s ease, transform .4s ease;
+}
+.material-desc {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin-bottom: 14px;
+  min-height: 1.7em;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .4s ease, transform .4s ease;
+}
+.material-points { display: flex; flex-direction: column; gap: 8px; opacity: 0; transform: translateY(8px); transition: opacity .4s ease, transform .4s ease; }
+.material-points li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+.material-points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.material-showcase.is-visible .material-name,
+.material-showcase.is-visible .material-desc,
+.material-showcase.is-visible .material-points { opacity: 1; transform: none; }
+
+.material-photo {
+  flex: 1 1 55%;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(26,26,26,.14);
+  aspect-ratio: 3 / 2;
+}
+.material-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  transition: opacity .5s ease;
+}
+.material-photo img.is-visible { opacity: 1; }
+
+.material-stepper { display: flex; align-items: center; justify-content: center; gap: 0; margin-top: 40px; }
+.material-dot {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background-color: var(--border);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color .3s ease, transform .3s ease;
+}
+.material-dot.active { background-color: var(--accent); transform: scale(1.25); }
+.material-dot-line { width: 44px; height: 2px; background: var(--border); flex-shrink: 0; }
+
+@media (max-width: 860px) {
+  .material-layout { flex-direction: column-reverse; gap: 24px; }
+  .material-text { flex: none; width: 100%; }
+  .material-photo { flex: none; width: 100%; }
+  .material-dot-line { width: 24px; }
+}
+
 /* ---------- People values ---------- */
 .section-people { background: var(--bg); }
 .value-grid { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }

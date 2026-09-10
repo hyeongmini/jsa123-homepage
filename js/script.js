@@ -103,3 +103,116 @@ siteNav.querySelectorAll("a").forEach((link) => {
     });
   });
 })();
+
+// 아스콘의 재료: 1개씩 자동 전환(5초 간격) + 하단 스테퍼 클릭으로 수동 이동
+(function () {
+  const showcase = document.getElementById("materialShowcase");
+  if (!showcase) return;
+
+  const MATERIALS = [
+    {
+      name: "아스팔트 바인더",
+      desc: "석유를 정제하는 과정에서 얻어지는 점성이 높은 흑갈색 물질로, 아스팔트 혼합물에서 골재를 서로 붙여주는 접착재 역할을 합니다.",
+      points: [
+        "골재(자갈·모래 등)와 혼합되어 아스팔트 콘크리트(아스콘)를 구성",
+        "도로의 강도·내구성·방수성을 확보하는 역할",
+        "균열 및 변형에 대한 저항성을 부여하며 차량 하중을 골재에 전달",
+      ],
+      img: "img/materials/binder.jpg",
+    },
+    {
+      name: "굵은 골재",
+      desc: "아스팔트나 콘크리트에 사용되는 입자가 비교적 큰 골재(粗骨材, Coarse Aggregate)입니다.",
+      points: [
+        "차량 하중을 지지하고 아스콘의 구조적 강도 확보",
+        "변형 및 밀림에 대한 저항성 확보",
+        "전체 혼합물의 골격 형성",
+      ],
+      img: "img/materials/coarse-aggregate.jpg",
+    },
+    {
+      name: "아스팔트",
+      desc: "",
+      points: [],
+      img: "img/materials/asphalt.jpg",
+    },
+    {
+      name: "잔골재",
+      desc: "굵은골재보다 입자가 작은 모래 또는 쇄석 미립분 등의 골재(細骨材, Fine Aggregate)입니다.",
+      points: [
+        "굵은골재 사이의 빈 공간을 충전, 표면 마감 및 작업성 개선",
+        "골재 간 맞물림을 향상시켜 혼합물의 치밀성 확보",
+      ],
+      img: "img/materials/fine-aggregate.jpg",
+    },
+    {
+      name: "채움재",
+      desc: "골재 사이의 아주 작은 빈 공간을 채워주는 미세한 분말 재료로, 일반적으로 석회석 등을 분쇄하여 사용합니다.",
+      points: [
+        "골재 사이의 미세한 공극 충전",
+        "아스팔트 바인더와 결합하여 매스틱(mastic) 형성",
+        "아스콘의 강도 및 안정성 향상",
+      ],
+      img: "img/materials/filler.jpg",
+    },
+  ];
+
+  const nameEl = document.getElementById("materialName");
+  const descEl = document.getElementById("materialDesc");
+  const pointsEl = document.getElementById("materialPoints");
+  const imgEl = document.getElementById("materialImg");
+  const stepperEl = document.getElementById("materialStepper");
+
+  MATERIALS.forEach((m, i) => {
+    const dot = document.createElement("button");
+    dot.type = "button";
+    dot.className = "material-dot" + (i === 0 ? " active" : "");
+    dot.setAttribute("aria-label", m.name);
+    dot.addEventListener("click", () => goTo(i, true));
+    stepperEl.appendChild(dot);
+    if (i < MATERIALS.length - 1) {
+      const line = document.createElement("span");
+      line.className = "material-dot-line";
+      stepperEl.appendChild(line);
+    }
+  });
+  const dots = stepperEl.querySelectorAll(".material-dot");
+
+  let current = 0;
+  let timer = null;
+
+  function render(index) {
+    const m = MATERIALS[index];
+    imgEl.classList.remove("is-visible");
+    showcase.classList.remove("is-visible");
+    window.setTimeout(() => {
+      nameEl.textContent = m.name;
+      descEl.textContent = m.desc;
+      pointsEl.innerHTML = "";
+      m.points.forEach((pt) => {
+        const li = document.createElement("li");
+        li.textContent = pt;
+        pointsEl.appendChild(li);
+      });
+      imgEl.src = m.img;
+      imgEl.alt = m.name;
+      showcase.classList.add("is-visible");
+    }, 200);
+    imgEl.onload = () => imgEl.classList.add("is-visible");
+    dots.forEach((d, i) => d.classList.toggle("active", i === index));
+  }
+
+  function goTo(index, manual) {
+    current = (index + MATERIALS.length) % MATERIALS.length;
+    render(current);
+    if (manual) restartTimer();
+  }
+
+  function restartTimer() {
+    if (timer) window.clearInterval(timer);
+    timer = window.setInterval(() => goTo(current + 1, false), 5000);
+  }
+
+  render(0);
+  restartTimer();
+})();
