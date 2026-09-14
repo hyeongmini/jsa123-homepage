@@ -111,6 +111,18 @@ siteNav.querySelectorAll("a").forEach((link) => {
 
   const MATERIALS = [
     {
+      name: "아스팔트",
+      desc: "아스팔트 바인더, 굵은 골재, 잔골재, 채움재가 알맞은 비율로 배합되어 완성되는 아스팔트 콘크리트(아스콘)입니다.",
+      kind: "intro",
+      circles: [
+        { label: "아스팔트 바인더", img: "img/materials/binder.jpg", goto: 1 },
+        { label: "굵은 골재", img: "img/materials/coarse-aggregate.jpg", goto: 2 },
+        { label: "잔골재", img: "img/materials/fine-aggregate.jpg", goto: 3 },
+        { label: "채움재", img: "img/materials/filler.jpg", goto: 4 },
+      ],
+      img: "img/materials/asphalt.jpg",
+    },
+    {
       name: "아스팔트 바인더",
       desc: "석유를 정제하는 과정에서 얻어지는 점성이 높은 흑갈색 물질로, 아스팔트 혼합물에서 골재를 서로 붙여주는 접착재 역할을 합니다.",
       points: [
@@ -129,12 +141,6 @@ siteNav.querySelectorAll("a").forEach((link) => {
         "전체 혼합물의 골격 형성",
       ],
       img: "img/materials/coarse-aggregate.jpg",
-    },
-    {
-      name: "아스팔트",
-      desc: "",
-      points: [],
-      img: "img/materials/asphalt.jpg",
     },
     {
       name: "잔골재",
@@ -159,7 +165,7 @@ siteNav.querySelectorAll("a").forEach((link) => {
 
   const nameEl = document.getElementById("materialName");
   const descEl = document.getElementById("materialDesc");
-  const pointsEl = document.getElementById("materialPoints");
+  const extraEl = document.getElementById("materialExtra");
   const imgEl = document.getElementById("materialImg");
   const stepperEl = document.getElementById("materialStepper");
 
@@ -188,12 +194,31 @@ siteNav.querySelectorAll("a").forEach((link) => {
     window.setTimeout(() => {
       nameEl.textContent = m.name;
       descEl.textContent = m.desc;
-      pointsEl.innerHTML = "";
-      m.points.forEach((pt) => {
-        const li = document.createElement("li");
-        li.textContent = pt;
-        pointsEl.appendChild(li);
-      });
+      extraEl.innerHTML = "";
+      if (m.kind === "intro") {
+        const wrap = document.createElement("div");
+        wrap.className = "material-circles";
+        m.circles.forEach((c) => {
+          const item = document.createElement("button");
+          item.type = "button";
+          item.className = "material-circle-item";
+          item.innerHTML =
+            '<span class="material-circle"><img src="' + c.img + '" alt="' + c.label + '"></span>' +
+            '<span class="material-circle-label">' + c.label + "</span>";
+          item.addEventListener("click", () => goTo(c.goto, true));
+          wrap.appendChild(item);
+        });
+        extraEl.appendChild(wrap);
+      } else {
+        const ul = document.createElement("ul");
+        ul.className = "material-points";
+        m.points.forEach((pt) => {
+          const li = document.createElement("li");
+          li.textContent = pt;
+          ul.appendChild(li);
+        });
+        extraEl.appendChild(ul);
+      }
       imgEl.src = m.img;
       imgEl.alt = m.name;
       showcase.classList.add("is-visible");
